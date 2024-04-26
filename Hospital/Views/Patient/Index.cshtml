@@ -1,0 +1,262 @@
+﻿@model IEnumerable<Hospital.Models.Patient>
+
+@{
+    ViewData["Title"] = "Index";
+    string url = Context.Request.Path + Context.Request.HttpContext.Request.QueryString;
+}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="row text-center">
+        <h1 style="text-align:center">Patients List</h1>
+    </div>
+
+
+    <div class="row">
+        <form method="post">
+            <div class="form-group">
+                <div class="col-3 mb-4" style="float:left;padding:5px">
+                    <a href="~/Patient/Create?url=@url" class="btn btn-primary form-control">Create New</a>
+                </div>
+                <div class="col-3 mb-4" style="float:left;padding:5px">
+                    <a href="~/Patient/ExcelExport?doctorId=@ViewBag.doctorId&ptName=@ViewBag.ptName&cityId=@ViewBag.cityId&stateId=@ViewBag.stateId&diseaseId=@ViewBag.diseaseId" class="btn btn-warning form-control"> Excel</a>
+                </div>
+                <div class="col-3 mb-4" style="float:left;padding:5px">
+                    <a href="~/Patient/PdfExport?doctorId=@ViewBag.doctorId&ptName=@ViewBag.ptName&cityId=@ViewBag.cityId&stateId=@ViewBag.stateId&diseaseId=@ViewBag.diseaseId" class="btn btn-danger form-control">Pdf</a>
+                </div>
+                <div class="col-3 mb-4" style="float:left;padding:5px">
+                    <a asp-area="" asp-controller="Admin" asp-action="Index" class="btn btn-warning form-control">Back to List</a>
+                </div>
+                <div class="col-4" style="float:left ;padding:5px">
+                    <label class="control-label">Filter patientByName</label>
+                    <select name="ptName" class="form-control" id="ptName">
+                        <option value="">Select Patient</option>
+                        @foreach (var name in ViewBag.PatientNames)
+                        {
+                            if (ViewBag.ptName == name)
+                            {
+                                <option value="@name" selected>@name</option>
+                            }
+                            else
+                            {
+                                <option value="@name">@name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-4" style="float:left;padding:5px">
+                <label>Filter PatientByCity</label>
+                <select name="cityId" class="form-control">
+                    <option>----Select City----</option>
+                    @foreach (var obj in ViewBag.ct)
+                    {
+                        if (@obj.id == @ViewBag.cityId)
+                        {
+                            <option selected value="@obj.id">
+                                @obj.cityName
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@obj.id">
+                                @obj.cityName
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-4" style="float:left;padding:5px">
+                <label>Filter PatientByDisease</label>
+                <select name="diseaseId" class="form-control">
+                    <option>----Select Disease---</option>
+                    @foreach (var obj in ViewBag.cs)
+                    {
+                        if (@obj.id == @ViewBag.diseaseId)
+                        {
+                            <option selected value="@obj.id">
+                                @obj.diseaseName
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@obj.id">
+                                @obj.diseaseName
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-4" style="float:left;padding:5px">
+                <label>Filter PatientByState</label>
+                <select name="stateId" class="form-control">
+                    <option>---Select Disease---</option>
+                    @foreach (var obj in ViewBag.st)
+                    {
+                        if (@obj.id == @ViewBag.stateId)
+                        {
+                            <option selected value="@obj.id">
+                                @obj.stateName
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@obj.id">
+                                @obj.stateName
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-4" style="float:left;padding:5px">
+                <label>Filter PatientByDoctor</label>
+                <select name="doctorId" class="form-control">
+                    <option>---Select Doctor---</option>
+                    @foreach (var obj in ViewBag.cl)
+                    {
+                        if (@obj.id == @ViewBag.doctorId)
+                        {
+                            <option selected value="@obj.id">
+                                @obj.doctorName
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@obj.id">
+                                @obj.doctorName
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-4" style="float:left;padding:5px">
+                <label></label>
+                <input type="submit" value="Filter List" class="btn btn-primary form-control" style="color:white;background-color:blue" />
+            </div>
+
+
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    Patient Name
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Doctor
+                </th>
+                <th>
+                    City
+                </th>
+                <th>
+                    State
+                </th>
+                <th>
+                    Disease
+                </th>
+                <th>
+                    Caste
+                </th>
+                <th>
+                    Gender
+                </th>
+                <th>
+                    Fees
+                </th>
+                <th>
+                    Mob No
+                </th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ptName)
+                    </td>
+                    <td>
+                        <img class="patient-image" src="@item.ImagePath" alt="Patient Image" width="50" height="50" style="border-radius:10px" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.doctorName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.stateName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.diseaseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cast)
+                    </td>
+                    <td>
+                        @if (item.gender == "1")
+                        {
+                            @("Male")
+                        }
+                        else if (item.gender == "2")
+                        {
+                            @("Female")
+
+                        }
+                        else
+                        {
+                            @("")
+                        }
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.mobNo)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id, url = url }, new { @class = "btn btn-warning" })
+
+                        @Html.ActionLink("Delete", "Delete", new { id = item.id, url = url }, new { @class = "btn btn-danger" })
+                    </td>
+
+
+
+                </tr>
+            }
+            <tr>
+                <td colspan="7"></td>
+                <td>Total Fees</td>
+                <td>@ViewBag.totalFees</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- the following script for Patient image of your view -->
+    <script>
+        $(document).ready(function () {
+            $(".patient-image").click(function () {
+                var imageUrl = $(this).attr("src");
+                Swal.fire({
+                    imageUrl: imageUrl,
+                    imageAlt: 'Patient Image',
+                    width: '40%',
+                    showConfirmButton: false, // Remove the "OK" button
+                    customDoctor: {
+                        image: 'sweet-alert-image'
+                    }
+                });
+            });
+        });
+    </script>

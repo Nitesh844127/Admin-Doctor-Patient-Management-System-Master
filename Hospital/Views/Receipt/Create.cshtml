@@ -1,0 +1,80 @@
+﻿@model Hospital.Models.Receipt
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Receipt</h4>
+<hr />
+<div class="row">
+
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-lg-6" style="float:left; margin:6px">
+            <div class="form-group">
+                <label class="control-label">Patient Name</label>
+                <select name="ptId" class="form-control">
+                    <option value="">Select Patient</option>
+                    @foreach (var patient in ViewBag.PatientNames)
+                    {
+                        <option value="@patient.id">@patient.ptName</option>
+                    }
+                </select>
+                <span asp-validation-for="ptId" class="text-danger"></span>
+            </div>
+        </div>
+        <input name="url" hidden value="@ViewBag.url" />
+        <div class="col-lg-6" style="float:left; margin:6px">
+            <div class="form-group">
+                <label>Entry Date</label>
+                <input type="date" class="form-control" name="date1" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+        <div class="col-lg-6" style="float:left; margin:6px">
+            <div class="form-group">
+                <label asp-for="amount" class="control-label"></label>
+                <input asp-for="amount" class="form-control" />
+                <span asp-validation-for="amount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-6" style="float:left; margin:6px">
+            <div class="form-group">
+                <label asp-for="remark" class="control-label"></label>
+                <input asp-for="remark" class="form-control" />
+                <span asp-validation-for="remark" class="text-danger"></span>
+            </div>
+           </div>
+                <div class="col-lg-4" style="float:left; margin:16px">
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-lg-4" style="float:left; margin:16px">
+                    <div class="form-group">
+                        <a href="@ViewBag.url" class="btn btn-warning">Back to List</a>
+                    </div>
+                </div>
+    </form>
+
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#ptId").select2();
+
+    });
+</script>
+
+
+

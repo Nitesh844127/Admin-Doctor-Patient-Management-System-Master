@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Hospital.Models.City>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row ">
+    <div class="col-4" style="float:right">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </p>
+    </div>
+  
+    <div class="col-5 " style="float:right">
+        <h1>City List</h1>
+    </div>
+    <div class="col-3 " style="float: right;">
+        <a asp-area="" asp-controller="Admin" asp-action="Index" class="btn btn-warning">Back to List</a>
+    </div>
+</div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    City Name
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cityName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

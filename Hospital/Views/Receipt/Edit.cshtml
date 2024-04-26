@@ -1,0 +1,76 @@
+﻿@model Hospital.Models.Receipt
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Receipt</h4>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-lg-6" style="float:left;padding:5px">
+                <div class="form-group">
+                    <label class="control-label">Patient Name</label>
+                    <select name="ptId" class="form-control">
+                        <option value="">Select Patient</option>
+                        @foreach (var patient in ViewBag.PatientNames)
+                        {
+                            @if (patient.id == Model.ptId)
+                            {
+                                <option value="@patient.id" selected>@patient.ptName</option>
+                            }
+                            <option value="@patient.id">@patient.ptName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ptId" class="text-danger"></span>
+                </div>
+            </div>
+            <input name="url" hidden value="@ViewBag.url" />
+            <div class="col-lg-6" style="float:left;padding:5px">
+                <div class="form-group">
+                    <label>Entry Date</label>
+                    <input type="date" name="date1" class="form-control" value="@Model.date.ToDate().ToString("yyyy-MM-dd")" />
+                </div>
+            </div>
+            <div class="col-lg-6" style="float:left;padding:5px">
+                <div class="form-group">
+                    <label class="control-label">Amount</label>
+                    <input asp-for="amount" class="form-control" />
+                    <span asp-validation-for="amount" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="float:left;padding:5px">
+                <div class="form-group">
+                    <label class="control-label">Remark</label>
+                    <input asp-for="remark" class="form-control" />
+                    <span asp-validation-for="remark" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-6" style="float:left;padding:5px">
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-lg-6" style="float:left;padding:5px">
+                <div class="form-group">
+                    <a href="@ViewBag.url" class="btn btn-warning">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+

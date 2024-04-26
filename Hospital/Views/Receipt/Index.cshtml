@@ -1,0 +1,200 @@
+﻿@model IEnumerable<Hospital.Models.Receipt>
+
+@{
+    ViewData["Title"] = "Index";
+    string url = Context.Request.Path + Context.Request.HttpContext.Request.QueryString;
+}
+<!-- Include SweetAlert library (CDN link) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="row text-center">
+    <h1 style="text-align:center">Receipts List</h1>
+</div>
+
+<div class="row">
+
+    <form method="post">
+        <div class="col-4" style="float:left;padding:5px">
+            <label>Filter PatientByName</label>
+            <select name="ptName" class="form-control">
+                <option value="">----Select Patient----</option>
+                @foreach (var patient in ViewBag.PatientNames)
+                {
+                    if (ViewBag.ptName == patient.ptName)
+                    {
+                        <option value="@patient.ptName" selected>@patient.ptName</option>
+                    }
+                    else
+                    {
+                        <option value="@patient.ptName">@patient.ptName</option>
+                    }
+
+                }
+            </select>
+       
+        </div>
+        <div class="col-4" style="float:left;padding:5px">
+            <label>Filter PatientByDisease</label>
+            <select name="diseaseId" class="form-control">
+
+                <option>----Select Disease---</option>
+                @foreach (var obj in ViewBag.cs)
+                {
+                    if (@obj.id == @ViewBag.diseaseId)
+                    {
+                        <option selected value="@obj.id">
+                            @obj.diseaseName
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@obj.id">
+                            @obj.diseaseName
+                        </option>
+                    }
+
+                }
+            </select>
+
+        </div>
+
+        <div class="col-4" style="float:left;padding:5px">
+            <label>Filter PatientByDoctor</label>
+            <select name="doctorId" class="form-control">
+
+                <option>---Select Doctor---</option>
+                @foreach (var obj in ViewBag.cl)
+                {
+                    if (@obj.id == @ViewBag.doctorId)
+                    {
+                        <option selected value="@obj.id">
+                            @obj.doctorName
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@obj.id">
+                            @obj.doctorName
+                        </option>
+                    }
+
+                }
+            </select>
+
+        </div>
+        <div class="col-2 mt-2" style="float:left;padding:25px">
+            <a href="~/Receipt/Create?url=@url" class="btn btn-primary form-control">Create New</a>
+        </div>
+        <div class="col-2 mt-2" style="float:left;padding:25px">
+            <a href="~/Receipt/PdfExport?doctorId=@ViewBag.doctorId&ptName=@ViewBag.ptName&diseaseId=@ViewBag.diseaseId" class="btn btn-danger form-control">Pdf</a>
+        </div>
+        <div class="col-3 mt-2" style="float:left;padding:25px">
+            <input type="submit" value="Filter List" class="btn btn-primary form-control" />
+        </div>
+        <div class="col-3 mt-2" style="float:left;padding:25px">
+            <a asp-area="" asp-controller="Admin" asp-action="Index" class="btn btn-warning">Back to List</a>
+        </div> 
+      
+    </form>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Patient Name
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Patient Doctor
+            </th>
+            <th>
+                Patient Disease
+            </th>
+            <th>
+                Mobile No
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Remark
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.patName)
+                </td>
+                <td>
+                    @item.date.ToDate().ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.doctorName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.diseaseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.mob)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.remark)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id, url = url  }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.id, url = url }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4"></td>
+            <td>Total Amount</td>
+            <td>@ViewBag.total</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+
+    @if (TempData.ContainsKey("ReceiptCreated") && (bool)TempData["ReceiptCreated"])
+    {
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Receipt  Created!',
+                text: 'Your Receipt has been successfully Created.',
+            });
+        </text>
+    }
+    @if (TempData.ContainsKey("ReceiptDeleted") && (bool)TempData["ReceiptDeleted"])
+    {
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Receipt  Deleted!',
+                text: 'Your Receipt has been  successfully Deleted.',
+            });
+        </text>
+    }
+    @if (TempData.ContainsKey("ReceiptUpdated") && (bool)TempData["ReceiptUpdated"])
+    {
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Receipt  Updated!',
+                text: 'Your Receipt has been  successfully Updated .',
+            });
+        </text>
+    }
+</script>

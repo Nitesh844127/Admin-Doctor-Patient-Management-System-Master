@@ -1,0 +1,188 @@
+﻿@model Hospital.Models.Patient
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Patient</h4>
+<hr />
+<div class="row">
+    
+    <form method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-12">
+            <div class="form-group">
+              
+                @if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    <img src="@Model.ImagePath" alt="Patient Image" style="max-width: 200px; margin-top: 10px;" />
+                }
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Patient Image</label>
+                <input type="file" name="patientImage" class="form-control" />
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Patient Name</label>
+                <input asp-for="ptName" class="form-control" />
+                <span asp-validation-for="ptName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label>Select Doctor</label>
+                <select name="doctorId" class="form-control">
+                    <option disabled>Select Doctor</option>
+                    @foreach (var obj in ViewBag.cl)
+                    {
+                        if (obj.id == Model.doctorId)
+                        {
+                            <option value="@obj.id" selected>
+                                @obj.doctorName
+                            </option>
+                        }
+                        <option value="@obj.id">
+                            @obj.doctorName
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <input name="url" hidden value="@ViewBag.url" />
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label>Select City</label>
+                <select name="cityId" class="form-control">
+                    <option disabled>Select City</option>
+                    @foreach (var obj in ViewBag.ct)
+                    {
+                        if (obj.id == Model.cityId)
+                        {
+                            <option value="@obj.id" selected>
+                                @obj.cityName
+                            </option>
+                        }
+                        <option value="@obj.id">
+                            @obj.cityName
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label>Select State</label>
+                <select name="stateId" class="form-control">
+                    <option disabled>Select State</option>
+                    @foreach (var obj in ViewBag.st)
+                    {
+                        if (obj.id == Model.stateId)
+                        {
+                            <option value="@obj.id" selected>
+                                @obj.stateName
+                            </option>
+                        }
+                        <option value="@obj.id">
+                            @obj.stateName
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label>Select Disease</label>
+                <select name="diseaseId" class="form-control">
+                    <option disabled>Select Disease</option>
+                    @foreach (var obj in ViewBag.cs)
+                    {
+                        if (obj.id == Model.diseaseId)
+                        {
+                            <option value="@obj.id" selected>
+                                @obj.diseaseName
+                            </option>
+                        }
+                        <option value="@obj.id">
+                            @obj.diseaseName
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Cast</label>
+                <input asp-for="cast" class="form-control" />
+                <span asp-validation-for="cast" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Gender</label>
+                @if (Model.gender == "1")
+                {
+                    <select name="gender" class="form-control">
+                        <option value=""> Select Gender</option>
+                        <option selected value="1"> Male</option>
+                        <option value="2"> Female</option>
+                    </select>
+                }
+                else if (Model.gender == "2")
+                {
+            <select name="gender" class="form-control">
+                <option value=""> Select Gender</option>
+                <option value="1"> Male</option>
+                <option selected value="2"> Female</option>
+            </select>
+
+                }
+                else
+                {
+            <select name="gender" class="form-control">
+                <option value=""> Select Gender</option>
+                <option value="1"> Male</option>
+                <option value="2"> Female</option>
+            </select>
+                }
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label  class="control-label">Fees Amount</label>
+                <input asp-for="fees" class="form-control" />
+                <span asp-validation-for="fees" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label  class="control-label">Mob No.</label>
+                <input asp-for="mobNo" class="form-control" />
+                <span asp-validation-for="mobNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-2 mt-3 mb-2" style="float:left;padding:15px">
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary form-control" />
+            </div>
+        </div>
+        <div class="col-3 mt-3 mb-2" style="float:left;padding:15px">
+            <div class="form-group">
+                <a href="@ViewBag.url" class="btn btn-warning form-control">Back to List</a>
+            </div>
+        </div>
+    </form>
+  
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

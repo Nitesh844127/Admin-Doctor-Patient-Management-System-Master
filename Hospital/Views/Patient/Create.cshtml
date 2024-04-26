@@ -1,0 +1,132 @@
+﻿@model Hospital.Models.Patient
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Patient</h4>
+<hr />
+<div class="row">
+   
+    <form method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Patient Name</label>
+                <input asp-for="ptName" class="form-control" />
+                <span asp-validation-for="ptName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Patient Image</label>
+                <input type="file" name="patientImage" class="form-control" />
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label>Select Doctor</label>
+                <select name="doctorId" class="form-control">
+                    <option disabled selected>Select Doctor</option>
+                    @foreach (var obj in ViewBag.cl)
+                    {
+                        <option value="@obj.id">
+                            @obj.doctorName
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <input name="url" hidden value="@ViewBag.url" />
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label>Select City</label>
+                <select name="cityId" class="form-control">
+                    <option disabled selected>Select City</option>
+                    @foreach (var obj in ViewBag.ct)
+                    {
+                        <option value="@obj.id">
+                            @obj.cityName
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label>Select State</label>
+                <select name="stateId" class="form-control">
+                    <option disabled selected>Select State</option>
+                    @foreach (var obj in ViewBag.st)
+                    {
+                        <option value="@obj.id">
+                            @obj.stateName
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label>Select Disease</label>
+                <select name="diseaseId" class="form-control">
+                    <option disabled selected>Select Disease</option>
+                    @foreach (var obj in ViewBag.cs)
+                    {
+                        <option value="@obj.id">
+                            @obj.diseaseName
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Caste</label>
+                <input asp-for="cast" class="form-control" />
+                <span asp-validation-for="cast" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Gender</label>
+                <select name="gender" class="form-control">
+                    <option value=""> Select Gender</option>
+                    <option value="1"> Male</option>
+                    <option value="2"> Female</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Fees</label>
+                <input asp-for="fees" class="form-control" />
+                <span asp-validation-for="fees" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-3 mb-2" style="float:left;padding:5px">
+            <div class="form-group">
+                <label class="control-label">Mob No</label>
+                <input asp-for="mobNo" class="form-control" />
+                <span asp-validation-for="mobNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4 mt-3 mb-2" style="float:left;padding:15px">
+            <div class="form-group" style="float:left;padding:5px">
+                <input type="submit" value="Create" class="btn btn-primary form-control" />
+            </div>
+            <div class="form-group" style="float:left;padding:5px">
+                <a href="@ViewBag.url" class="btn btn-warning form-control">Back to List</a>
+            </div>
+        </div>
+    </form>
+   
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
